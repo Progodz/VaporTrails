@@ -1,0 +1,68 @@
+name: VaporTrails
+
+main: com.mitsugaru.VaporTrails.VaporTrails
+
+version: 0.01
+
+website: http://dev.bukkit.org/server-mods/vaportrails/
+
+description: Fun vapor trails.
+
+softdepend: [Vault]
+
+authors:
+  - Mitsugaru
+
+commands:
+  trail:
+    description: Root command for VaporTrails
+    usage: /trail ? - Show help on VaporTrails
+
+permissions:
+    VaporTrails.*:
+        description: Gives access to all VaporTrails commands
+        children:
+            VaporTrails.admin: true
+            VaporTrails.effect.smoke: true
+            VaporTrails.effect.ender: true
+            VaporTrails.effect.thunder: true
+            VaporTrails.effect.tnt: true
+            VaporTrails.effect.snow: true
+            VaporTrails.effect.fire: true
+            VaporTrails.effect.block: true
+        default: op
+    VaporTrails.admin:
+        description: Allows user to administrate VaporTrails
+        default: op
+    VaporTrails.effect.smoke:
+        description: Allows user to use smoke effect
+        default: op
+    VaporTrails.effect.ender:
+        description: Allows user to use ender effect
+        default: op
+    VaporTrails.effect.thunder:
+        description: Allows user to use thunder effect
+        default: op
+    VaporTrails.effect.tnt:
+        description: Allows user to use tnt effect
+        default: op
+    VaporTrails.effect.snow:
+        description: Allows user to use snow effect
+        default: op
+    VaporTrails.effect.fire:
+        description: Allows user to use fire effect
+        default: op
+    VaporTrails.effect.block:
+        description: Allows user to use make block paths
+        default: op
+    VaporTrails.effect.*:
+        description: Gives access to all VaporTrails effects
+        children:
+            VaporTrails.effect.smoke: true
+            VaporTrails.effect.ender: true
+            VaporTrails.effect.thunder: true
+            VaporTrails.effect.tnt: true
+            VaporTrails.effect.snow: true
+            VaporTrails.effect.fire: true
+            VaporTrails.effect.block: true
+        default: op
