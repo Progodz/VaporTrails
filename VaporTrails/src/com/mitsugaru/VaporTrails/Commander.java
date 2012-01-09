@@ -176,6 +176,7 @@ public class Commander implements CommandExecutor {
 					}
 					if(id == 0)
 					{
+						//Handle air as effects off
 						if (playerEffects.containsKey(sender.getName()))
 						{
 							playerEffects.remove(sender.getName());
