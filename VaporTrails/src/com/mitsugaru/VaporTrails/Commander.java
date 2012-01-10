@@ -66,22 +66,23 @@ public class Commander implements CommandExecutor {
 						+ ChatColor.GRAY + "THUNDER" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "TNT" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "SNOW" + ChatColor.BLUE + "/"
-						+ ChatColor.GRAY +"<block>:<data>");
+						+ ChatColor.GRAY + "<block>:<data>");
 			}
 			else if (com.equals("stop") || com.equals("off"))
 			{
-					if (playerEffects.containsKey(sender.getName()))
-					{
-						playerEffects.remove(sender.getName());
-						sender.sendMessage(ChatColor.YELLOW
-								+ VaporTrails.prefix + "Stopping effects.");
-					}
+				if (playerEffects.containsKey(sender.getName()))
+				{
+					playerEffects.remove(sender.getName());
+					sender.sendMessage(ChatColor.YELLOW + VaporTrails.prefix
+							+ "Stopping effects.");
+				}
 			}
 			else if (com.equals("smoke"))
 			{
-				if(!perm.has(sender, "VaporTrails.effect.smoke"))
+				if (!perm.has(sender, "VaporTrails.effect.smoke"))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix + "Lack permission: VaporTrails.effect.smoke");
+					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+							+ "Lack permission: VaporTrails.effect.smoke");
 					return true;
 				}
 				if (sender instanceof Player)
@@ -93,9 +94,10 @@ public class Commander implements CommandExecutor {
 			}
 			else if (com.equals("ender"))
 			{
-				if(!perm.has(sender, "VaporTrails.effect.ender"))
+				if (!perm.has(sender, "VaporTrails.effect.ender"))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix + "Lack permission: VaporTrails.effect.ender");
+					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+							+ "Lack permission: VaporTrails.effect.ender");
 					return true;
 				}
 				if (sender instanceof Player)
@@ -108,9 +110,10 @@ public class Commander implements CommandExecutor {
 			}
 			else if (com.equals("lightning") || com.equals("thunder"))
 			{
-				if(!perm.has(sender, "VaporTrails.effect.thunder"))
+				if (!perm.has(sender, "VaporTrails.effect.thunder"))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix + "Lack permission: VaporTrails.effect.thunder");
+					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+							+ "Lack permission: VaporTrails.effect.thunder");
 					return true;
 				}
 				playerEffects.put(sender.getName(), "THUNDER");
@@ -120,9 +123,10 @@ public class Commander implements CommandExecutor {
 			else if (com.equals("explosion") || com.equals("explode")
 					|| com.equals("tnt"))
 			{
-				if(!perm.has(sender, "VaporTrails.effect.tnt"))
+				if (!perm.has(sender, "VaporTrails.effect.tnt"))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix + "Lack permission: VaporTrails.effect.tnt");
+					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+							+ "Lack permission: VaporTrails.effect.tnt");
 					return true;
 				}
 				playerEffects.put(sender.getName(), "EXPLOSION");
@@ -131,9 +135,10 @@ public class Commander implements CommandExecutor {
 			}
 			else if (com.equals("snow"))
 			{
-				if(!perm.has(sender, "VaporTrails.effect.snow"))
+				if (!perm.has(sender, "VaporTrails.effect.snow"))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix + "Lack permission: VaporTrails.effect.snow");
+					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+							+ "Lack permission: VaporTrails.effect.snow");
 					return true;
 				}
 				playerEffects.put(sender.getName(), "SNOW");
@@ -142,9 +147,10 @@ public class Commander implements CommandExecutor {
 			}
 			else if (com.equals("fire") || com.equals("blaze"))
 			{
-				if(!perm.has(sender, "VaporTrails.effect.fire"))
+				if (!perm.has(sender, "VaporTrails.effect.fire"))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix + "Lack permission: VaporTrails.effect.fire");
+					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+							+ "Lack permission: VaporTrails.effect.fire");
 					return true;
 				}
 				playerEffects.put(sender.getName(), "FIRE");
@@ -153,9 +159,10 @@ public class Commander implements CommandExecutor {
 			}
 			else
 			{
-				if(!perm.has(sender, "VaporTrails.effect.block"))
+				if (!perm.has(sender, "VaporTrails.effect.block"))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix + "Lack permission: VaporTrails.effect.block");
+					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+							+ "Lack permission: VaporTrails.effect.block");
 					return true;
 				}
 				try
@@ -174,9 +181,9 @@ public class Commander implements CommandExecutor {
 					{
 						id = Integer.parseInt(com);
 					}
-					if(id == 0)
+					if (id == 0)
 					{
-						//Handle air as effects off
+						// Handle air as effects off
 						if (playerEffects.containsKey(sender.getName()))
 						{
 							playerEffects.remove(sender.getName());

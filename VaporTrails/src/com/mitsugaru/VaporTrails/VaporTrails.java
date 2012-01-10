@@ -38,7 +38,7 @@ public class VaporTrails extends JavaPlugin {
 		//Create listener
 		VTPlayerListener playerListener = new VTPlayerListener(this);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Priority.Monitor, this);
-		syslog.info(prefix + " v " + this.getDescription().getVersion() + " enabled");
+		syslog.info(prefix + " v" + this.getDescription().getVersion() + " enabled");
 	}
 
 	public Config getPluginConfig()
