@@ -1,12 +1,17 @@
 package com.mitsugaru.VaporTrails;
 
+import net.minecraft.server.Packet61WorldEvent;
+
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
 
 public class VTPlayerListener extends PlayerListener {
 	private VaporTrails plugin;
@@ -47,12 +52,35 @@ public class VTPlayerListener extends PlayerListener {
 				{
 					firePlayer(event.getPlayer());
 				}
+				else if(effect.equals("BLAZE"))
+				{
+					blazePlayer(event.getPlayer());
+				}
 				else
 				{
 					blockPlayer(event.getPlayer(), effect);
 				}
 			}
 		}
+	}
+
+	/*
+	 * Following method from BlazeOfGlory plugin
+	 * http://dev.bukkit.org/server-mods/blazeofglory/
+	 *
+	 * Copyright (c) 2011-2012 craftycreeper, minebot.net
+	 */
+	private void blazePlayer(Player player)
+	{
+		//TODO might need a thread and do this on intervals
+		final Location loc = player.getLocation();
+		final int x = (int)Math.round(loc.getX());
+		final int y = (int)Math.round(loc.getY());
+		final int z = (int)Math.round(loc.getZ());
+		((CraftServer) plugin.getServer()).getServer().serverConfigurationManager.sendPacketNearby(
+				loc.getX(), loc.getY(), loc.getZ(), 64,
+				((CraftWorld)loc.getWorld()).getHandle().dimension,
+				new Packet61WorldEvent(2004, x, y, z, 0));
 	}
 
 	private void thunderPlayer(Player player)
