@@ -1,10 +1,7 @@
 package com.mitsugaru.VaporTrails;
 
-
 import java.util.logging.Logger;
 
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,7 +34,7 @@ public class VaporTrails extends JavaPlugin {
 		PluginManager pm = this.getServer().getPluginManager();
 		//Create listener
 		VTPlayerListener playerListener = new VTPlayerListener(this);
-		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Priority.Monitor, this);
+		pm.registerEvents(playerListener, this);
 		syslog.info(prefix + " v" + this.getDescription().getVersion() + " enabled");
 	}
 
