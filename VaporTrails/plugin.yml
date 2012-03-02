@@ -29,6 +29,7 @@ permissions:
             VaporTrails.effect.tnt: true
             VaporTrails.effect.snow: true
             VaporTrails.effect.fire: true
+            VaporTrails.effect.shine: true
             VaporTrails.effect.block: true
         default: op
     VaporTrails.admin:
@@ -52,6 +53,9 @@ permissions:
     VaporTrails.effect.fire:
         description: Allows user to use fire effect
         default: op
+    VaporTrails.effect.shine:
+        description: Allows user to use shine effect
+        default: op
     VaporTrails.effect.block:
         description: Allows user to use make block paths
         default: op
@@ -65,4 +69,5 @@ permissions:
             VaporTrails.effect.snow: true
             VaporTrails.effect.fire: true
             VaporTrails.effect.block: true
+            VaporTrails.effect.shine: true
         default: op

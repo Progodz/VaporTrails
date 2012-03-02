@@ -54,9 +54,9 @@ public class VTPlayerListener implements Listener {
 				{
 					firePlayer(event.getPlayer());
 				}
-				else if(effect.equals("BLAZE"))
+				else if(effect.equals("SHINE"))
 				{
-					blazePlayer(event.getPlayer());
+					shinePlayer(event.getPlayer());
 				}
 				else
 				{
@@ -72,7 +72,7 @@ public class VTPlayerListener implements Listener {
 	 *
 	 * Copyright (c) 2011-2012 craftycreeper, minebot.net
 	 */
-	private void blazePlayer(Player player)
+	private void shinePlayer(Player player)
 	{
 		//TODO might need a thread and do this on intervals
 		final Location loc = player.getLocation();

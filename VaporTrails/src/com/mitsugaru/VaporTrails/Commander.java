@@ -66,7 +66,7 @@ public class Commander implements CommandExecutor {
 						+ ChatColor.GRAY + "THUNDER" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "TNT" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "SNOW" + ChatColor.BLUE + "/"
-						+ ChatColor.GRAY + "BLAZE" + ChatColor.BLUE + "/"
+						+ ChatColor.GRAY + "SHINE" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "<block>:<data>");
 			}
 			else if (com.equals("stop") || com.equals("off"))
@@ -146,7 +146,7 @@ public class Commander implements CommandExecutor {
 				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
 						+ "Effect: " + ChatColor.GRAY + "SNOW");
 			}
-			else if (com.equals("fire"))
+			else if (com.equals("fire") || com.equals("blaze"))
 			{
 				if (!perm.has(sender, "VaporTrails.effect.fire"))
 				{
@@ -158,17 +158,17 @@ public class Commander implements CommandExecutor {
 				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
 						+ "Effect: " + ChatColor.GRAY + "FIRE");
 			}
-			else if(com.equals("blaze"))
+			else if(com.equals("shine"))
 			{
-				if (!perm.has(sender, "VaporTrails.effect.blaze"))
+				if (!perm.has(sender, "VaporTrails.effect.shine"))
 				{
 					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.blaze");
+							+ "Lack permission: VaporTrails.effect.shine");
 					return true;
 				}
-				playerEffects.put(sender.getName(), "BLAZE");
+				playerEffects.put(sender.getName(), "SHINE");
 				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
-						+ "Effect: " + ChatColor.GRAY + "BLAZE");
+						+ "Effect: " + ChatColor.GRAY + "SHINE");
 			}
 			else
 			{
