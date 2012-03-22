@@ -2,8 +2,11 @@ package com.mitsugaru.VaporTrails;
 
 import java.util.logging.Logger;
 
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class VaporTrails extends JavaPlugin {
 	public Logger syslog;
@@ -50,5 +53,16 @@ public class VaporTrails extends JavaPlugin {
 	public Commander getCommander()
 	{
 		return commander;
+	}
+	
+	public WorldGuardPlugin getWorldGuard() {
+	    Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+	 
+	    // WorldGuard may not be loaded
+	    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+	        return null; // Maybe you want throw an exception instead
+	    }
+	 
+	    return (WorldGuardPlugin) plugin;
 	}
 }

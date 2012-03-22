@@ -8,7 +8,8 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class Config {
 	private VaporTrails plugin;
-	public boolean debug, effects;
+	public boolean debug, effects, gamemode, worldGuard;
+	public String gameModeEffect;
 	public int amount;
 	public int percent;
 
@@ -18,6 +19,9 @@ public class Config {
 		// Hashmap of defaults
 		final Map<String, Object> defaults = new HashMap<String, Object>();
 		defaults.put("effects", true);
+		defaults.put("gamemode.use", false);
+		defaults.put("gamemode.effect", "smoke");
+		defaults.put("checkWorldGuardRegions", true);
 		defaults.put("version", plugin.getDescription().getVersion());
 		boolean gen = false;
 		for (final Entry<String, Object> e : defaults.entrySet())
@@ -32,9 +36,12 @@ public class Config {
 		{
 			plugin.syslog
 					.info(VaporTrails.prefix
-							+ " No KarmicLotto config file found. Creating config file.");
+							+ " No VaporTrails config file found. Creating config file.");
 		}
 		debug = config.getBoolean("debug", false);
+		gamemode = config.getBoolean("gamemode.use", false);
+		gameModeEffect = config.getString("gamemode.effect", "smoke");
+		worldGuard = config.getBoolean("checkWorldGuardRegions", true);
 		effects = config.getBoolean("effects", true);
 		// Check for update
 		checkUpdate();

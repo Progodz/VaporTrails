@@ -67,6 +67,7 @@ public class Commander implements CommandExecutor {
 						+ ChatColor.GRAY + "TNT" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "SNOW" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "SHINE" + ChatColor.BLUE + "/"
+						+ ChatColor.GRAY + "HEART" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "<block>:<data>");
 			}
 			else if (com.equals("stop") || com.equals("off"))
@@ -130,7 +131,7 @@ public class Commander implements CommandExecutor {
 							+ "Lack permission: VaporTrails.effect.tnt");
 					return true;
 				}
-				playerEffects.put(sender.getName(), "EXPLOSION");
+				playerEffects.put(sender.getName(), "TNT");
 				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
 						+ "Effect: " + ChatColor.GRAY + "EXPLOSION");
 			}
