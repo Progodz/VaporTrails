@@ -38,6 +38,24 @@ public class VaporTrails extends JavaPlugin {
 		//Create listener
 		VTPlayerListener playerListener = new VTPlayerListener(this);
 		pm.registerEvents(playerListener, this);
+		//Check for worldguard?
+		if(config.worldGuard)
+		{
+			try
+			{
+				WorldGuardPlugin test = getWorldGuard();
+				if(test == null)
+				{
+					syslog.warning("Could not attach to WorldGuard. Ignoring WorldGuard regions.");
+					config.worldGuard = false;
+				}
+			}
+			catch (Exception e)
+			{
+				syslog.warning("Could not attach to WorldGuard. Ignoring WorldGuard regions.");
+				config.worldGuard = false;
+			}
+		}
 		syslog.info(prefix + " v" + this.getDescription().getVersion() + " enabled");
 	}
 

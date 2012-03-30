@@ -21,7 +21,7 @@ public class Config {
 		defaults.put("effects", true);
 		defaults.put("gamemode.use", false);
 		defaults.put("gamemode.effect", "smoke");
-		defaults.put("checkWorldGuardRegions", true);
+		defaults.put("checkWorldGuardRegions", false);
 		defaults.put("version", plugin.getDescription().getVersion());
 		boolean gen = false;
 		for (final Entry<String, Object> e : defaults.entrySet())
@@ -37,6 +37,7 @@ public class Config {
 			plugin.syslog
 					.info(VaporTrails.prefix
 							+ " No VaporTrails config file found. Creating config file.");
+			plugin.saveConfig();
 		}
 		debug = config.getBoolean("debug", false);
 		gamemode = config.getBoolean("gamemode.use", false);
