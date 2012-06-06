@@ -19,7 +19,6 @@ public class Commander implements CommandExecutor {
 
 	public Commander(VaporTrails karmiclotto) {
 		plugin = karmiclotto;
-		// Create permission handler
 		perm = plugin.getPerm();
 	}
 
@@ -67,7 +66,6 @@ public class Commander implements CommandExecutor {
 						+ ChatColor.GRAY + "TNT" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "SNOW" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "SHINE" + ChatColor.BLUE + "/"
-						+ ChatColor.GRAY + "HEART" + ChatColor.BLUE + "/"
 						+ ChatColor.GRAY + "<block>:<data>");
 			}
 			else if (com.equals("stop") || com.equals("off"))

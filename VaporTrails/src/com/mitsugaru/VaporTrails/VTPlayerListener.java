@@ -20,35 +20,35 @@ public class VTPlayerListener implements Listener
 {
 	private VaporTrails plugin;
 
-	public VTPlayerListener(VaporTrails karmicLotto)
+	public VTPlayerListener(VaporTrails vt)
 	{
-		plugin = karmicLotto;
+		plugin = vt;
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerModeChange(PlayerGameModeChangeEvent event)
 	{
-		if (!event.isCancelled() && plugin.getPluginConfig().gamemode)
+		if (!event.isCancelled() || !plugin.getPluginConfig().gamemode)
 		{
-			if (event.getNewGameMode().getValue() == 0)
+			return;
+		}
+		if (event.getNewGameMode().getValue() == 0)
+		{
+			// Going away from creative
+			plugin.getCommander().getPlayers().remove(event.getPlayer());
+		}
+		else if (event.getNewGameMode().getValue() == 1)
+		{
+			// Going to creative
+			if (plugin.getPerm().has(
+					event.getPlayer(),
+					"VaporTrails.effect."
+							+ plugin.getPluginConfig().gameModeEffect))
 			{
-				// Going away from creative
-				plugin.getCommander().getPlayers().remove(event.getPlayer());
-			}
-			else if (event.getNewGameMode().getValue() == 1)
-			{
-				// Going to creative
-				if (plugin.getPerm().has(
-						event.getPlayer(),
-						"VaporTrails.effect."
-								+ plugin.getPluginConfig().gameModeEffect))
-					;
-				{
-					plugin.getCommander()
-							.getPlayers()
-							.put(event.getPlayer().getName(),
-									plugin.getPluginConfig().gameModeEffect);
-				}
+				plugin.getCommander()
+						.getPlayers()
+						.put(event.getPlayer().getName(),
+								plugin.getPluginConfig().gameModeEffect);
 			}
 		}
 	}
@@ -56,15 +56,24 @@ public class VTPlayerListener implements Listener
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerMove(PlayerMoveEvent event)
 	{
-		if (!event.isCancelled())
+		if (event.isCancelled())
 		{
-			final String name = event.getPlayer().getName();
-			if (plugin.getCommander().getPlayers().containsKey(name))
-			{
-				final String effect = plugin.getCommander().getPlayers()
-						.get(name);
-				effectChoice(event.getPlayer(), effect, true);
-			}
+			return;
+		}
+		final String name = event.getPlayer().getName();
+
+		if (!plugin.getCommander().getPlayers().containsKey(name))
+		{
+			return;
+		}
+		try
+		{
+			final String effect = plugin.getCommander().getPlayers().get(name);
+			effectChoice(event.getPlayer(), effect, true);
+		}
+		catch (IllegalArgumentException ia)
+		{
+			// IGNORE
 		}
 	}
 

@@ -1,7 +1,5 @@
 package com.mitsugaru.VaporTrails;
 
-import java.util.logging.Logger;
-
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,7 +7,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class VaporTrails extends JavaPlugin {
-	public Logger syslog;
 	private Commander commander;
 	private Config config;
 	private PermCheck perm;
@@ -19,13 +16,10 @@ public class VaporTrails extends JavaPlugin {
 	public void onDisable() {
 		// Save config
 		this.saveConfig();
-		syslog.info(prefix + " Plugin disabled");
 	}
 
 	@Override
 	public void onEnable() {
-		// Logger
-		syslog = this.getServer().getLogger();
 		// Config
 		config = new Config(this);
 		//Create permissions
@@ -46,17 +40,16 @@ public class VaporTrails extends JavaPlugin {
 				WorldGuardPlugin test = getWorldGuard();
 				if(test == null)
 				{
-					syslog.warning("Could not attach to WorldGuard. Ignoring WorldGuard regions.");
+					getLogger().warning("Could not attach to WorldGuard. Ignoring WorldGuard regions.");
 					config.worldGuard = false;
 				}
 			}
 			catch (Exception e)
 			{
-				syslog.warning("Could not attach to WorldGuard. Ignoring WorldGuard regions.");
+				getLogger().warning("Could not attach to WorldGuard. Ignoring WorldGuard regions.");
 				config.worldGuard = false;
 			}
 		}
-		syslog.info(prefix + " v" + this.getDescription().getVersion() + " enabled");
 	}
 
 	public Config getPluginConfig()

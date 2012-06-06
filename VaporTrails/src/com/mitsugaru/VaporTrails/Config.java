@@ -34,7 +34,7 @@ public class Config {
 		}
 		if (gen)
 		{
-			plugin.syslog
+			plugin.getLogger()
 					.info(VaporTrails.prefix
 							+ " No VaporTrails config file found. Creating config file.");
 			plugin.saveConfig();
