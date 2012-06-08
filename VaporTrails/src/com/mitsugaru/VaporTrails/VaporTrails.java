@@ -1,52 +1,56 @@
 package com.mitsugaru.VaporTrails;
 
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
-public class VaporTrails extends JavaPlugin {
+public class VaporTrails extends JavaPlugin
+{
 	private Commander commander;
 	private Config config;
 	private PermCheck perm;
 	public static final String prefix = "[VaporTrails]";
 
 	@Override
-	public void onDisable() {
+	public void onDisable()
+	{
 		// Save config
 		this.saveConfig();
 	}
 
 	@Override
-	public void onEnable() {
+	public void onEnable()
+	{
 		// Config
 		config = new Config(this);
-		//Create permissions
+		// Create permissions
 		perm = new PermCheck(this);
-		//Create commander
+		// Create commander
 		commander = new Commander(this);
 		getCommand("trail").setExecutor(commander);
-
-		PluginManager pm = this.getServer().getPluginManager();
-		//Create listener
-		VTPlayerListener playerListener = new VTPlayerListener(this);
-		pm.registerEvents(playerListener, this);
-		//Check for worldguard?
-		if(config.worldGuard)
+		// Create listener
+		getServer().getPluginManager().registerEvents(
+				new VTPlayerListener(this), this);
+		// Check for worldguard?
+		if (config.worldGuard)
 		{
 			try
 			{
 				WorldGuardPlugin test = getWorldGuard();
-				if(test == null)
+				if (test == null)
 				{
-					getLogger().warning("Could not attach to WorldGuard. Ignoring WorldGuard regions.");
+					getLogger()
+							.warning(
+									"Could not attach to WorldGuard. Ignoring WorldGuard regions.");
 					config.worldGuard = false;
 				}
 			}
 			catch (Exception e)
 			{
-				getLogger().warning("Could not attach to WorldGuard. Ignoring WorldGuard regions.");
+				getLogger()
+						.warning(
+								"Could not attach to WorldGuard. Ignoring WorldGuard regions.");
 				config.worldGuard = false;
 			}
 		}
@@ -57,7 +61,8 @@ public class VaporTrails extends JavaPlugin {
 		return config;
 	}
 
-	public PermCheck getPerm() {
+	public PermCheck getPerm()
+	{
 		return perm;
 	}
 
@@ -65,15 +70,17 @@ public class VaporTrails extends JavaPlugin {
 	{
 		return commander;
 	}
-	
-	public WorldGuardPlugin getWorldGuard() {
-	    Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
-	 
-	    // WorldGuard may not be loaded
-	    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-	        return null; // Maybe you want throw an exception instead
-	    }
-	 
-	    return (WorldGuardPlugin) plugin;
+
+	public WorldGuardPlugin getWorldGuard()
+	{
+		Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+
+		// WorldGuard may not be loaded
+		if (plugin == null || !(plugin instanceof WorldGuardPlugin))
+		{
+			return null; // Maybe you want throw an exception instead
+		}
+
+		return (WorldGuardPlugin) plugin;
 	}
 }
