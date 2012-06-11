@@ -188,4 +188,13 @@ public class VTLogic
 		player.getLocation().getWorld()
 				.playEffect(player.getLocation(), effect, 1);
 	}
+
+	public static void cancelExisting(String name)
+	{
+		if (playerEffects.containsKey(name))
+		{
+			final Trail trail = playerEffects.remove(name);
+			trail.cancelEffect();
+		}
+	}
 }

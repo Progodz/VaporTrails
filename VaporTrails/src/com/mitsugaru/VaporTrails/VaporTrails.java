@@ -26,6 +26,8 @@ public class VaporTrails extends JavaPlugin
 	{
 		// Config
 		config = new Config(this);
+		//Check update
+		config.checkUpdate();
 		// Create permissions
 		PermCheck.init(this);
 		//Create logic

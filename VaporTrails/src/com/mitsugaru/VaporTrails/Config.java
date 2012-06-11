@@ -67,6 +67,39 @@ public class Config
 		}
 	}
 
+	/**
+	 * Check if updates are necessary
+	 */
+	public void checkUpdate()
+	{
+		// Check if need to update
+		ConfigurationSection config = plugin.getConfig();
+		if (Double.parseDouble(plugin.getDescription().getVersion()) > Double
+				.parseDouble(config.getString("version")))
+		{
+			// Update to latest version
+			plugin.getLogger().info(
+					"Updating to v" + plugin.getDescription().getVersion());
+			update();
+		}
+	}
+
+	/**
+	 * This method is called to make the appropriate changes, most likely only
+	 * necessary for database schema modification, for a proper update.
+	 */
+	@SuppressWarnings("unused")
+	public void update()
+	{
+		// Grab current version
+		final double ver = Double.parseDouble(plugin.getConfig().getString(
+				"version"));
+		// Update version number in config.yml
+		plugin.getConfig().set("version", plugin.getDescription().getVersion());
+		plugin.saveConfig();
+		plugin.getLogger().info("Upgrade complete");
+	}
+
 	public void save()
 	{
 		plugin.saveConfig();

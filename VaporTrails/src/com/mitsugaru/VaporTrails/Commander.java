@@ -76,9 +76,7 @@ public class Commander implements CommandExecutor
 			{
 				if (VTLogic.playerEffects.containsKey(sender.getName()))
 				{
-					final Trail trail = VTLogic.playerEffects.remove(sender
-							.getName());
-					trail.cancelEffect();
+					VTLogic.cancelExisting(sender.getName());
 					sender.sendMessage(ChatColor.YELLOW + VaporTrails.TAG
 							+ "Stopping effects.");
 				}
@@ -94,6 +92,7 @@ public class Commander implements CommandExecutor
 				}
 				if (sender instanceof Player)
 				{
+					VTLogic.cancelExisting(sender.getName());
 					VTLogic.playerEffects.put(sender.getName(), new Trail(
 							plugin, sender.getName(), "" + Effect.SMOKE));
 					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
@@ -111,6 +110,7 @@ public class Commander implements CommandExecutor
 				}
 				if (sender instanceof Player)
 				{
+					VTLogic.cancelExisting(sender.getName());
 					VTLogic.playerEffects
 							.put(sender.getName(),
 									new Trail(plugin, sender.getName(), ""
@@ -129,10 +129,14 @@ public class Commander implements CommandExecutor
 							+ PermissionNode.EFFECT_THUNDER.getNode());
 					return true;
 				}
-				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
-						sender.getName(), "THUNDER"));
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-						+ "Effect: " + ChatColor.GRAY + "THUNDER");
+				if (sender instanceof Player)
+				{
+					VTLogic.cancelExisting(sender.getName());
+					VTLogic.playerEffects.put(sender.getName(), new Trail(
+							plugin, sender.getName(), "THUNDER"));
+					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
+							+ "Effect: " + ChatColor.GRAY + "THUNDER");
+				}
 			}
 			else if (com.equals("explosion") || com.equals("explode")
 					|| com.equals("tnt"))
@@ -144,10 +148,14 @@ public class Commander implements CommandExecutor
 							+ PermissionNode.EFFECT_TNT.getNode());
 					return true;
 				}
-				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
-						sender.getName(), "TNT"));
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-						+ "Effect: " + ChatColor.GRAY + "EXPLOSION");
+				if (sender instanceof Player)
+				{
+					VTLogic.cancelExisting(sender.getName());
+					VTLogic.playerEffects.put(sender.getName(), new Trail(
+							plugin, sender.getName(), "TNT"));
+					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
+							+ "Effect: " + ChatColor.GRAY + "EXPLOSION");
+				}
 			}
 			else if (com.equals("snow"))
 			{
@@ -159,10 +167,14 @@ public class Commander implements CommandExecutor
 							+ PermissionNode.EFFECT_SNOW.getNode());
 					return true;
 				}
-				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
-						sender.getName(), "SNOW"));
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-						+ "Effect: " + ChatColor.GRAY + "SNOW");
+				if (sender instanceof Player)
+				{
+					VTLogic.cancelExisting(sender.getName());
+					VTLogic.playerEffects.put(sender.getName(), new Trail(
+							plugin, sender.getName(), "SNOW"));
+					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
+							+ "Effect: " + ChatColor.GRAY + "SNOW");
+				}
 			}
 			else if (com.equals("fire") || com.equals("flame"))
 			{
@@ -174,10 +186,14 @@ public class Commander implements CommandExecutor
 							+ PermissionNode.EFFECT_FIRE.getNode());
 					return true;
 				}
-				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
-						sender.getName(), "FIRE"));
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-						+ "Effect: " + ChatColor.GRAY + "FIRE");
+				if (sender instanceof Player)
+				{
+					VTLogic.cancelExisting(sender.getName());
+					VTLogic.playerEffects.put(sender.getName(), new Trail(
+							plugin, sender.getName(), "FIRE"));
+					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
+							+ "Effect: " + ChatColor.GRAY + "FIRE");
+				}
 			}
 			else if (com.equals("shine") || com.equals("blaze"))
 			{
@@ -189,10 +205,14 @@ public class Commander implements CommandExecutor
 							+ PermissionNode.EFFECT_SHINE.getNode());
 					return true;
 				}
-				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
-						sender.getName(), "SHINE"));
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-						+ "Effect: " + ChatColor.GRAY + "SHINE");
+				if (sender instanceof Player)
+				{
+					VTLogic.cancelExisting(sender.getName());
+					VTLogic.playerEffects.put(sender.getName(), new Trail(
+							plugin, sender.getName(), "SHINE"));
+					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
+							+ "Effect: " + ChatColor.GRAY + "SHINE");
+				}
 			}
 			else
 			{
@@ -202,6 +222,10 @@ public class Commander implements CommandExecutor
 					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
 							+ "Lack permission: "
 							+ PermissionNode.EFFECT_BLOCK.getNode());
+					return true;
+				}
+				if (!(sender instanceof Player))
+				{
 					return true;
 				}
 				try
@@ -225,7 +249,7 @@ public class Commander implements CommandExecutor
 						// Handle air as effects off
 						if (VTLogic.playerEffects.containsKey(sender.getName()))
 						{
-							VTLogic.playerEffects.remove(sender.getName());
+							VTLogic.cancelExisting(sender.getName());
 							sender.sendMessage(ChatColor.YELLOW
 									+ VaporTrails.TAG + "Stopping effects.");
 						}
@@ -234,6 +258,7 @@ public class Commander implements CommandExecutor
 					ItemStack block = new ItemStack(id, data);
 					if (block.getData().getItemType().isBlock())
 					{
+						VTLogic.cancelExisting(sender.getName());
 						if (hasData)
 						{
 							VTLogic.playerEffects.put(sender.getName(),
@@ -262,4 +287,6 @@ public class Commander implements CommandExecutor
 		}
 		return true;
 	}
+
+	
 }
