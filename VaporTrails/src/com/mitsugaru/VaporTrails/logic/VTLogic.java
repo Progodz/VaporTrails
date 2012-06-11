@@ -1,4 +1,7 @@
-package com.mitsugaru.VaporTrails;
+package com.mitsugaru.VaporTrails.logic;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraft.server.Packet61WorldEvent;
 
@@ -7,77 +10,24 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.entity.Player;
 
-public class VTPlayerListener implements Listener
+import com.mitsugaru.VaporTrails.VaporTrails;
+
+public class VTLogic
 {
-	private VaporTrails plugin;
+	private static VaporTrails plugin;
+	public static Map<String, Trail> playerEffects = new HashMap<String, Trail>();
 
-	public VTPlayerListener(VaporTrails vt)
+	public static void init(VaporTrails vt)
 	{
 		plugin = vt;
 	}
 
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerModeChange(PlayerGameModeChangeEvent event)
-	{
-		if (!event.isCancelled() || !plugin.getPluginConfig().gamemode)
-		{
-			return;
-		}
-		if (event.getNewGameMode().getValue() == 0)
-		{
-			// Going away from creative
-			plugin.getCommander().getPlayers().remove(event.getPlayer());
-		}
-		else if (event.getNewGameMode().getValue() == 1)
-		{
-			// Going to creative
-			if (plugin.getPerm().has(
-					event.getPlayer(),
-					"VaporTrails.effect."
-							+ plugin.getPluginConfig().gameModeEffect))
-			{
-				plugin.getCommander()
-						.getPlayers()
-						.put(event.getPlayer().getName(),
-								plugin.getPluginConfig().gameModeEffect);
-			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerMove(PlayerMoveEvent event)
-	{
-		if (event.isCancelled())
-		{
-			return;
-		}
-		final String name = event.getPlayer().getName();
-
-		if (!plugin.getCommander().getPlayers().containsKey(name))
-		{
-			return;
-		}
-		try
-		{
-			final String effect = plugin.getCommander().getPlayers().get(name);
-			effectChoice(event.getPlayer(), effect, true);
-		}
-		catch (IllegalArgumentException ia)
-		{
-			// IGNORE
-		}
-	}
-
-	private void effectChoice(Player player, String effect, boolean useBlocks)
+	public static void playEffect(Player player, String effect,
+			boolean useBlocks)
 	{
 		if (effect.equalsIgnoreCase("" + Effect.SMOKE))
 		{
@@ -162,7 +112,7 @@ public class VTPlayerListener implements Listener
 	 * http://dev.bukkit.org/server-mods/blazeofglory/ Copyright (c) 2011-2012
 	 * craftycreeper, minebot.net
 	 */
-	private void shinePlayer(final Player player)
+	private static void shinePlayer(final Player player)
 	{
 		final Location loc = player.getLocation();
 		final int x = (int) Math.round(loc.getX());
@@ -174,19 +124,19 @@ public class VTPlayerListener implements Listener
 						new Packet61WorldEvent(2004, x, y, z, 0));
 	}
 
-	private void thunderPlayer(final Player player)
+	private static void thunderPlayer(final Player player)
 	{
 		player.getLocation().getWorld()
 				.strikeLightningEffect(player.getLocation());
 	}
 
-	private void explodePlayer(final Player player)
+	private static void explodePlayer(final Player player)
 	{
 		player.getLocation().getWorld()
 				.createExplosion(player.getLocation(), 1F);
 	}
 
-	private void snowPlayer(final Player player)
+	private static void snowPlayer(final Player player)
 	{
 		final Block block = player.getLocation().getBlock();
 		if (block.getType().equals(Material.AIR))
@@ -199,7 +149,7 @@ public class VTPlayerListener implements Listener
 		}
 	}
 
-	private void blockPlayer(final Player player, final String effect)
+	private static void blockPlayer(final Player player, final String effect)
 	{
 		int id = 1;
 		byte data = 0;
@@ -220,7 +170,7 @@ public class VTPlayerListener implements Listener
 		}
 	}
 
-	private void firePlayer(final Player player)
+	private static void firePlayer(final Player player)
 	{
 		final Block block = player.getLocation().getBlock();
 		if (block.getType().equals(Material.AIR))
@@ -233,17 +183,7 @@ public class VTPlayerListener implements Listener
 		}
 	}
 
-	/**
-	 * Provides a smoke effect for the player.
-	 * 
-	 * http://forums.bukkit.org/threads/smoke-effect-yes-i-know-others-have-
-	 * asked.29492/
-	 * 
-	 * @param Player
-	 *            that should get the effect
-	 * @author Adamki11s
-	 */
-	private void effectPlayer(final Player player, final Effect effect)
+	private static void effectPlayer(final Player player, final Effect effect)
 	{
 		player.getLocation().getWorld()
 				.playEffect(player.getLocation(), effect, 1);

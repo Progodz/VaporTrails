@@ -1,8 +1,5 @@
 package com.mitsugaru.VaporTrails;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.command.Command;
@@ -11,20 +8,25 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Commander implements CommandExecutor {
-	private VaporTrails plugin;
-	private PermCheck perm;
-	private final static String bar = "======================";
-	private Map<String, String> playerEffects = new HashMap<String, String>();
+import com.mitsugaru.VaporTrails.logic.Trail;
+import com.mitsugaru.VaporTrails.logic.VTLogic;
+import com.mitsugaru.VaporTrails.permissions.PermCheck;
+import com.mitsugaru.VaporTrails.permissions.PermissionNode;
 
-	public Commander(VaporTrails karmiclotto) {
+public class Commander implements CommandExecutor
+{
+	private VaporTrails plugin;
+	private final static String bar = "======================";
+
+	public Commander(VaporTrails karmiclotto)
+	{
 		plugin = karmiclotto;
-		perm = plugin.getPerm();
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
-			String[] args) {
+			String[] args)
+	{
 		if (args.length == 0)
 		{
 			sender.sendMessage(ChatColor.BLUE + bar);
@@ -32,10 +34,11 @@ public class Commander implements CommandExecutor {
 					+ plugin.getDescription().getVersion());
 			sender.sendMessage(ChatColor.GREEN + "Coded by Mitsugaru");
 			sender.sendMessage(ChatColor.BLUE + bar);
-			if (playerEffects.containsKey(sender.getName()))
+			if (VTLogic.playerEffects.containsKey(sender.getName()))
 			{
 				sender.sendMessage(ChatColor.AQUA + "Current effect: "
-						+ ChatColor.GRAY + playerEffects.get(sender.getName()));
+						+ ChatColor.GRAY
+						+ VTLogic.playerEffects.get(sender.getName()));
 			}
 		}
 		else
@@ -43,16 +46,17 @@ public class Commander implements CommandExecutor {
 			String com = args[0].toLowerCase();
 			if (com.equals("reload"))
 			{
-				if (perm.has(sender, "VaporTrails.admin"))
+				if (PermCheck.has(sender, PermissionNode.ADMIN))
 				{
 					plugin.getPluginConfig().reload();
-					sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
+					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
 							+ " Config reloaded");
 				}
 				else
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ " Lack permission: VaporTrails.admin");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ " Lack permission: "
+							+ PermissionNode.ADMIN.getNode());
 				}
 				return true;
 			}
@@ -70,111 +74,134 @@ public class Commander implements CommandExecutor {
 			}
 			else if (com.equals("stop") || com.equals("off"))
 			{
-				if (playerEffects.containsKey(sender.getName()))
+				if (VTLogic.playerEffects.containsKey(sender.getName()))
 				{
-					playerEffects.remove(sender.getName());
-					sender.sendMessage(ChatColor.YELLOW + VaporTrails.prefix
+					final Trail trail = VTLogic.playerEffects.remove(sender
+							.getName());
+					trail.cancelEffect();
+					sender.sendMessage(ChatColor.YELLOW + VaporTrails.TAG
 							+ "Stopping effects.");
 				}
 			}
 			else if (com.equals("smoke"))
 			{
-				if (!perm.has(sender, "VaporTrails.effect.smoke"))
+				if (!PermCheck.has(sender, PermissionNode.EFFECT_SMOKE))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.smoke");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ "Lack permission: "
+							+ PermissionNode.EFFECT_SMOKE.getNode());
 					return true;
 				}
 				if (sender instanceof Player)
 				{
-					playerEffects.put(sender.getName(), ("" + Effect.SMOKE));
-					sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
+					VTLogic.playerEffects.put(sender.getName(), new Trail(
+							plugin, sender.getName(), "" + Effect.SMOKE));
+					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
 							+ "Effect: " + ChatColor.GRAY + Effect.SMOKE);
 				}
 			}
 			else if (com.equals("ender"))
 			{
-				if (!perm.has(sender, "VaporTrails.effect.ender"))
+				if (!PermCheck.has(sender, PermissionNode.EFFECT_ENDER))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.ender");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ "Lack permission: "
+							+ PermissionNode.EFFECT_ENDER.getNode());
 					return true;
 				}
 				if (sender instanceof Player)
 				{
-					playerEffects.put(sender.getName(),
-							("" + Effect.ENDER_SIGNAL));
-					sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
+					VTLogic.playerEffects
+							.put(sender.getName(),
+									new Trail(plugin, sender.getName(), ""
+											+ Effect.ENDER_SIGNAL));
+					sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
 							+ "Effect: " + ChatColor.GRAY + Effect.ENDER_SIGNAL);
 				}
 			}
 			else if (com.equals("lightning") || com.equals("thunder"))
 			{
-				if (!perm.has(sender, "VaporTrails.effect.thunder"))
+				if (!PermCheck.has(sender,
+						PermissionNode.EFFECT_THUNDER.getNode()))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.thunder");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ "Lack permission: "
+							+ PermissionNode.EFFECT_THUNDER.getNode());
 					return true;
 				}
-				playerEffects.put(sender.getName(), "THUNDER");
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
+				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
+						sender.getName(), "THUNDER"));
+				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
 						+ "Effect: " + ChatColor.GRAY + "THUNDER");
 			}
 			else if (com.equals("explosion") || com.equals("explode")
 					|| com.equals("tnt"))
 			{
-				if (!perm.has(sender, "VaporTrails.effect.tnt"))
+				if (!PermCheck.has(sender, PermissionNode.EFFECT_TNT.getNode()))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.tnt");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ "Lack permission: "
+							+ PermissionNode.EFFECT_TNT.getNode());
 					return true;
 				}
-				playerEffects.put(sender.getName(), "TNT");
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
+				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
+						sender.getName(), "TNT"));
+				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
 						+ "Effect: " + ChatColor.GRAY + "EXPLOSION");
 			}
 			else if (com.equals("snow"))
 			{
-				if (!perm.has(sender, "VaporTrails.effect.snow"))
+				if (!PermCheck
+						.has(sender, PermissionNode.EFFECT_SNOW.getNode()))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.snow");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ "Lack permission: "
+							+ PermissionNode.EFFECT_SNOW.getNode());
 					return true;
 				}
-				playerEffects.put(sender.getName(), "SNOW");
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
+				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
+						sender.getName(), "SNOW"));
+				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
 						+ "Effect: " + ChatColor.GRAY + "SNOW");
 			}
-			else if (com.equals("fire") || com.equals("blaze"))
+			else if (com.equals("fire") || com.equals("flame"))
 			{
-				if (!perm.has(sender, "VaporTrails.effect.fire"))
+				if (!PermCheck
+						.has(sender, PermissionNode.EFFECT_FIRE.getNode()))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.fire");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ "Lack permission: "
+							+ PermissionNode.EFFECT_FIRE.getNode());
 					return true;
 				}
-				playerEffects.put(sender.getName(), "FIRE");
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
+				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
+						sender.getName(), "FIRE"));
+				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
 						+ "Effect: " + ChatColor.GRAY + "FIRE");
 			}
-			else if(com.equals("shine"))
+			else if (com.equals("shine") || com.equals("blaze"))
 			{
-				if (!perm.has(sender, "VaporTrails.effect.shine"))
+				if (!PermCheck.has(sender,
+						PermissionNode.EFFECT_SHINE.getNode()))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.shine");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ "Lack permission: "
+							+ PermissionNode.EFFECT_SHINE.getNode());
 					return true;
 				}
-				playerEffects.put(sender.getName(), "SHINE");
-				sender.sendMessage(ChatColor.GREEN + VaporTrails.prefix
+				VTLogic.playerEffects.put(sender.getName(), new Trail(plugin,
+						sender.getName(), "SHINE"));
+				sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
 						+ "Effect: " + ChatColor.GRAY + "SHINE");
 			}
 			else
 			{
-				if (!perm.has(sender, "VaporTrails.effect.block"))
+				if (!PermCheck.has(sender,
+						PermissionNode.EFFECT_BLOCK.getNode()))
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
-							+ "Lack permission: VaporTrails.effect.block");
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+							+ "Lack permission: "
+							+ PermissionNode.EFFECT_BLOCK.getNode());
 					return true;
 				}
 				try
@@ -196,11 +223,11 @@ public class Commander implements CommandExecutor {
 					if (id == 0)
 					{
 						// Handle air as effects off
-						if (playerEffects.containsKey(sender.getName()))
+						if (VTLogic.playerEffects.containsKey(sender.getName()))
 						{
-							playerEffects.remove(sender.getName());
+							VTLogic.playerEffects.remove(sender.getName());
 							sender.sendMessage(ChatColor.YELLOW
-									+ VaporTrails.prefix + "Stopping effects.");
+									+ VaporTrails.TAG + "Stopping effects.");
 						}
 						return true;
 					}
@@ -209,32 +236,30 @@ public class Commander implements CommandExecutor {
 					{
 						if (hasData)
 						{
-							playerEffects
-									.put(sender.getName(), id + ":" + data);
+							VTLogic.playerEffects.put(sender.getName(),
+									new Trail(plugin, sender.getName(), id
+											+ ":" + data));
 						}
 						else
 						{
-							playerEffects.put(sender.getName(), "" + id);
+							VTLogic.playerEffects
+									.put(sender.getName(), new Trail(plugin,
+											sender.getName(), "" + id));
 						}
 					}
 					else
 					{
-						sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+						sender.sendMessage(ChatColor.RED + VaporTrails.TAG
 								+ "Must use a placeable block.");
 					}
 				}
 				catch (NumberFormatException e)
 				{
-					sender.sendMessage(ChatColor.RED + VaporTrails.prefix
+					sender.sendMessage(ChatColor.RED + VaporTrails.TAG
 							+ "Invalid item id / data value given");
 				}
 			}
 		}
 		return true;
 	}
-
-	public Map<String, String> getPlayers() {
-		return playerEffects;
-	}
-
 }

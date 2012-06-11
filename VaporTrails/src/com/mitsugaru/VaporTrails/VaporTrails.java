@@ -3,14 +3,16 @@ package com.mitsugaru.VaporTrails;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.mitsugaru.VaporTrails.listeners.VTPlayerListener;
+import com.mitsugaru.VaporTrails.listeners.VTPlayerMoveListener;
+import com.mitsugaru.VaporTrails.logic.VTLogic;
+import com.mitsugaru.VaporTrails.permissions.PermCheck;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class VaporTrails extends JavaPlugin
 {
-	private Commander commander;
 	private Config config;
-	private PermCheck perm;
-	public static final String prefix = "[VaporTrails]";
+	public static final String TAG = "[VaporTrails]";
 
 	@Override
 	public void onDisable()
@@ -25,13 +27,19 @@ public class VaporTrails extends JavaPlugin
 		// Config
 		config = new Config(this);
 		// Create permissions
-		perm = new PermCheck(this);
+		PermCheck.init(this);
+		//Create logic
+		VTLogic.init(this);
 		// Create commander
-		commander = new Commander(this);
-		getCommand("trail").setExecutor(commander);
+		getCommand("trail").setExecutor(new Commander(this));
 		// Create listener
 		getServer().getPluginManager().registerEvents(
 				new VTPlayerListener(this), this);
+		if (config.useListener)
+		{
+			getServer().getPluginManager().registerEvents(
+					new VTPlayerMoveListener(), this);
+		}
 		// Check for worldguard?
 		if (config.worldGuard)
 		{
@@ -59,16 +67,6 @@ public class VaporTrails extends JavaPlugin
 	public Config getPluginConfig()
 	{
 		return config;
-	}
-
-	public PermCheck getPerm()
-	{
-		return perm;
-	}
-
-	public Commander getCommander()
-	{
-		return commander;
 	}
 
 	public WorldGuardPlugin getWorldGuard()
