@@ -2,7 +2,7 @@ name: VaporTrails
 
 main: com.mitsugaru.VaporTrails.VaporTrails
 
-version: 0.06
+version: 0.07
 
 website: http://dev.bukkit.org/server-mods/vaportrails/
 
@@ -31,6 +31,7 @@ permissions:
             VaporTrails.effect.fire: true
             VaporTrails.effect.shine: true
             VaporTrails.effect.block: true
+            VaporTrails.effect.potion.*: true
         default: op
     VaporTrails.admin:
         description: Allows user to administrate VaporTrails
@@ -59,6 +60,53 @@ permissions:
     VaporTrails.effect.block:
         description: Allows user to use make block paths
         default: op
+    VaporTrails.effect.swirl:
+        description: Allows user to use swirl effect
+        default: op
+    VaporTrails.effect.potion.pink:
+        description: Allows user to use pink potion effect
+        default: op
+    VaporTrails.effect.potion.aqua:
+        description: Allows user to use aqua potion effect
+        default: op
+    VaporTrails.effect.potion.gold:
+        description: Allows user to use gold potion effect
+        default: op
+    VaporTrails.effect.potion.green:
+        description: Allows user to use green potion effect
+        default: op
+    VaporTrails.effect.potion.red:
+        description: Allows user to use red potion effect
+        default: op
+    VaporTrails.effect.potion.darkred:
+        description: Allows user to use darkred potion effect
+        default: op
+    VaporTrails.effect.potion.gray:
+        description: Allows user to use gray potion effect
+        default: op
+    VaporTrails.effect.potion.crimson:
+        description: Allows user to use crimson potion effect
+        default: op
+    VaporTrails.effect.potion.cyan:
+        description: Allows user to use cyan potion effect
+        default: op
+    VaporTrails.effect.potion.blue:
+        description: Allows user to use blue potion effect
+        default: op
+    VaporTrails.effect.potion.*:
+        description: Allows user to use all potion effects
+        default: op
+        children:
+            VaporTrails.effect.potion.pink: true
+            VaporTrails.effect.potion.aqua: true
+            VaporTrails.effect.potion.gold: true
+            VaporTrails.effect.potion.green: true
+            VaporTrails.effect.potion.red: true
+            VaporTrails.effect.potion.darkred: true
+            VaporTrails.effect.potion.gray: true
+            VaporTrails.effect.potion.crimson: true
+            VaporTrails.effect.potion.cyan: true
+            VaporTrails.effect.potion.blue: true
     VaporTrails.effect.*:
         description: Gives access to all VaporTrails effects
         children:
@@ -70,4 +118,5 @@ permissions:
             VaporTrails.effect.fire: true
             VaporTrails.effect.block: true
             VaporTrails.effect.shine: true
+            VaporTrails.effect.potion.*: true
         default: op

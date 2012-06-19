@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mitsugaru</groupId>
   <artifactId>VaporTrails</artifactId>
-  <version>0.06-SNAPSHOT</version>
+  <version>0.07-SNAPSHOT</version>
   <name>VaporTrails</name>
   <description>Silly Bukkit plugin that creates trail effects for players.</description>
   <scm>

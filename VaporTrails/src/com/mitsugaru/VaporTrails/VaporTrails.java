@@ -3,15 +3,16 @@ package com.mitsugaru.VaporTrails;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.mitsugaru.VaporTrails.config.RootConfig;
 import com.mitsugaru.VaporTrails.listeners.VTPlayerListener;
 import com.mitsugaru.VaporTrails.listeners.VTPlayerMoveListener;
 import com.mitsugaru.VaporTrails.logic.VTLogic;
-import com.mitsugaru.VaporTrails.permissions.PermCheck;
+import com.mitsugaru.VaporTrails.permissions.PermissionHandler;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class VaporTrails extends JavaPlugin
 {
-	private Config config;
+	private RootConfig config;
 	public static final String TAG = "[VaporTrails]";
 
 	@Override
@@ -25,11 +26,11 @@ public class VaporTrails extends JavaPlugin
 	public void onEnable()
 	{
 		// Config
-		config = new Config(this);
+		config = new RootConfig(this);
 		//Check update
 		config.checkUpdate();
 		// Create permissions
-		PermCheck.init(this);
+		PermissionHandler.init(this);
 		//Create logic
 		VTLogic.init(this);
 		// Create commander
@@ -66,7 +67,7 @@ public class VaporTrails extends JavaPlugin
 		}
 	}
 
-	public Config getPluginConfig()
+	public RootConfig getPluginConfig()
 	{
 		return config;
 	}

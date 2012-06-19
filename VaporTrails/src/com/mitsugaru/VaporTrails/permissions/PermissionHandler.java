@@ -14,7 +14,7 @@ import com.mitsugaru.VaporTrails.VaporTrails;
  * @author Mitsugaru
  * 
  */
-public class PermCheck
+public class PermissionHandler
 {
 	private static Permission perm;
 	private static boolean hasVault;
