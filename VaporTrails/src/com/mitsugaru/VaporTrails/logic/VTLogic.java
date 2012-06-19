@@ -185,8 +185,32 @@ public class VTLogic
 
 	private static void effectPlayer(final Player player, final Effect effect)
 	{
-		player.getLocation().getWorld()
+	    switch(effect)
+	    {
+	        case SMOKE:
+	        {
+	            player.getLocation().getWorld()
+                .playEffect(player.getLocation(), effect, 1);
+	            player.getLocation().getWorld()
+                .playEffect(player.getLocation(), effect, 3);
+	            player.getLocation().getWorld()
+                .playEffect(player.getLocation(), effect, 5);
+	            player.getLocation().getWorld()
+                .playEffect(player.getLocation(), effect, 7);
+	            break;
+	        }
+	        case ENDER_SIGNAL:
+	        {
+	            player.getLocation().getWorld()
 				.playEffect(player.getLocation(), effect, 1);
+	            break;
+	        }
+	        default:
+	        {
+	            break;
+	        }
+	    }
+		
 	}
 
 	public static void cancelExisting(String name)
