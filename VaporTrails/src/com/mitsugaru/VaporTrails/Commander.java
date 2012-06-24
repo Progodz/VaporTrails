@@ -52,20 +52,81 @@ public class Commander implements CommandExecutor {
                 }
                 return true;
             } else if (com.equals("help") || com.equals("?")) {
-                sender.sendMessage(ChatColor.GRAY + "Possible Effects: "
-                        + ChatColor.GRAY + Effect.SMOKE + ChatColor.BLUE + "/"
-                        + ChatColor.GRAY + "FIRE" + ChatColor.BLUE + "/"
-                        + ChatColor.GRAY + "ENDER" + ChatColor.BLUE + "/"
-                        + ChatColor.GRAY + "THUNDER" + ChatColor.BLUE + "/"
-                        + ChatColor.GRAY + "TNT" + ChatColor.BLUE + "/"
-                        + ChatColor.GRAY + "SNOW" + ChatColor.BLUE + "/"
-                        + ChatColor.GRAY + "SHINE" + ChatColor.BLUE + "/"
-                        + ChatColor.GRAY + "<block>:<data>");
+                sender.sendMessage(ChatColor.GRAY
+                        + "Possible Effects: "
+                        + ChatColor.GRAY
+                        + "SMOKE"
+                        + ChatColor.BLUE
+                        + "/"
+                        + ChatColor.GRAY
+                        + "FIRE"
+                        + ChatColor.BLUE
+                        + "/"
+                        + ChatColor.GRAY
+                        + "ENDER"
+                        + ChatColor.BLUE
+                        + "/"
+                        + ChatColor.GRAY
+                        + "THUNDER"
+                        + ChatColor.BLUE
+                        + "/"
+                        + ChatColor.GRAY
+                        + "TNT"
+                        + ChatColor.BLUE
+                        + "/"
+                        + ChatColor.GRAY
+                        + "SNOW"
+                        + ChatColor.BLUE
+                        + "/"
+                        + ChatColor.GRAY
+                        + "SHINE"
+                        + ChatColor.BLUE
+                        + "/"
+                        + ChatColor.GRAY
+                        + "SWIRL"
+                        + ChatColor.BLUE
+                        + "/"
+                        + ChatColor.GRAY
+                        + "POTION "
+                        + "[pink|aqua|gold|green|red|darkred|gray|crimson|cyan|blue]"
+                        + ChatColor.BLUE + "/" + ChatColor.GRAY
+                        + "<block>:<data>");
+                sender.sendMessage(ChatColor.WHITE + "/trail stop"
+                        + ChatColor.GRAY + " : " + "Stops the active trail.");
+                sender.sendMessage(ChatColor.WHITE + "/trail time <ticks>"
+                        + ChatColor.GRAY
+                        + " : Resets the interval for an active trail.");
             } else if (com.equals("stop") || com.equals("off")) {
                 if (VTLogic.playerEffects.containsKey(sender.getName())) {
                     VTLogic.cancelExisting(sender.getName());
                     sender.sendMessage(ChatColor.YELLOW + VaporTrails.TAG
-                            + "Stopping effects.");
+                            + " Stopping effects.");
+                }
+            } else if (com.equals("interval") || com.equals("time")) {
+                final Trail trail = VTLogic.playerEffects.get(sender.getName());
+                if (trail == null) {
+                    sender.sendMessage(ChatColor.YELLOW + VaporTrails.TAG
+                            + " No effect is enabled.");
+                    return true;
+                }
+                try {
+                    final int interval = Integer.parseInt(args[1]);
+                    if (interval <= 0) {
+                        sender.sendMessage(ChatColor.YELLOW
+                                + VaporTrails.TAG
+                                + " Cannot use 0 or a negative number for the interval.");
+                        return true;
+                    }
+                    trail.setInterval(interval);
+                    return true;
+                } catch (ArrayIndexOutOfBoundsException aioob) {
+                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+                            + " No interval given.");
+                    return true;
+                } catch (NumberFormatException nf) {
+                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+                            + " Non-number given for interval.");
+                    return true;
                 }
             } else if (com.equals("smoke")) {
                 if (!PermissionHandler.has(sender, PermissionNode.EFFECT_SMOKE)) {
@@ -97,9 +158,9 @@ public class Commander implements CommandExecutor {
                 }
             } else if (com.equals("lightning") || com.equals("thunder")) {
                 if (!PermissionHandler.has(sender,
-                        PermissionNode.EFFECT_THUNDER.getNode())) {
+                        PermissionNode.EFFECT_THUNDER)) {
                     sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Lack permission: "
+                            + " Lack permission: "
                             + PermissionNode.EFFECT_THUNDER.getNode());
                     return true;
                 }
@@ -108,14 +169,13 @@ public class Commander implements CommandExecutor {
                     VTLogic.playerEffects.put(sender.getName(), new Trail(
                             plugin, sender.getName(), Type.LIGHTNING));
                     sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-                            + "Effect: " + ChatColor.GRAY + "THUNDER");
+                            + " Effect: " + ChatColor.GRAY + "THUNDER");
                 }
             } else if (com.equals("explosion") || com.equals("explode")
                     || com.equals("tnt")) {
-                if (!PermissionHandler.has(sender,
-                        PermissionNode.EFFECT_TNT.getNode())) {
+                if (!PermissionHandler.has(sender, PermissionNode.EFFECT_TNT)) {
                     sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Lack permission: "
+                            + " Lack permission: "
                             + PermissionNode.EFFECT_TNT.getNode());
                     return true;
                 }
@@ -124,13 +184,12 @@ public class Commander implements CommandExecutor {
                     VTLogic.playerEffects.put(sender.getName(), new Trail(
                             plugin, sender.getName(), Type.TNT));
                     sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-                            + "Effect: " + ChatColor.GRAY + "EXPLOSION");
+                            + " Effect: " + ChatColor.GRAY + "EXPLOSION");
                 }
             } else if (com.equals("snow")) {
-                if (!PermissionHandler.has(sender,
-                        PermissionNode.EFFECT_SNOW.getNode())) {
+                if (!PermissionHandler.has(sender, PermissionNode.EFFECT_SNOW)) {
                     sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Lack permission: "
+                            + " Lack permission: "
                             + PermissionNode.EFFECT_SNOW.getNode());
                     return true;
                 }
@@ -139,13 +198,12 @@ public class Commander implements CommandExecutor {
                     VTLogic.playerEffects.put(sender.getName(), new Trail(
                             plugin, sender.getName(), Type.SNOW));
                     sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-                            + "Effect: " + ChatColor.GRAY + "SNOW");
+                            + " Effect: " + ChatColor.GRAY + "SNOW");
                 }
             } else if (com.equals("fire") || com.equals("flame")) {
-                if (!PermissionHandler.has(sender,
-                        PermissionNode.EFFECT_FIRE.getNode())) {
+                if (!PermissionHandler.has(sender, PermissionNode.EFFECT_FIRE)) {
                     sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Lack permission: "
+                            + " Lack permission: "
                             + PermissionNode.EFFECT_FIRE.getNode());
                     return true;
                 }
@@ -154,13 +212,12 @@ public class Commander implements CommandExecutor {
                     VTLogic.playerEffects.put(sender.getName(), new Trail(
                             plugin, sender.getName(), Type.FIRE));
                     sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-                            + "Effect: " + ChatColor.GRAY + "FIRE");
+                            + " Effect: " + ChatColor.GRAY + "FIRE");
                 }
             } else if (com.equals("shine") || com.equals("blaze")) {
-                if (!PermissionHandler.has(sender,
-                        PermissionNode.EFFECT_SHINE.getNode())) {
+                if (!PermissionHandler.has(sender, PermissionNode.EFFECT_SHINE)) {
                     sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Lack permission: "
+                            + " Lack permission: "
                             + PermissionNode.EFFECT_SHINE.getNode());
                     return true;
                 }
@@ -169,15 +226,23 @@ public class Commander implements CommandExecutor {
                     VTLogic.playerEffects.put(sender.getName(), new Trail(
                             plugin, sender.getName(), Type.SHINE));
                     sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-                            + "Effect: " + ChatColor.GRAY + "SHINE");
+                            + " Effect: " + ChatColor.GRAY + "SHINE");
                 }
             } else if (com.equalsIgnoreCase("swirl")) {
-                VTLogic.cancelExisting(sender.getName());
-                final Trail trail = new Trail(plugin, sender.getName(),
-                        Type.SWIRL);
-                VTLogic.playerEffects.put(sender.getName(), trail);
-                sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-                        + "Effect: " + ChatColor.GRAY + trail.getTitle());
+                if (!PermissionHandler.has(sender, PermissionNode.EFFECT_SWIRL)) {
+                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+                            + " Lack permission: "
+                            + PermissionNode.EFFECT_SWIRL.getNode());
+                    return true;
+                }
+                if (sender instanceof Player) {
+                    VTLogic.cancelExisting(sender.getName());
+                    final Trail trail = new Trail(plugin, sender.getName(),
+                            Type.SWIRL);
+                    VTLogic.playerEffects.put(sender.getName(), trail);
+                    sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
+                            + " Effect: " + ChatColor.GRAY + trail.getTitle());
+                }
             } else if (com.equalsIgnoreCase("potion")) {
                 Trail trail = null;
                 if (args.length <= 1) {
@@ -187,50 +252,139 @@ public class Commander implements CommandExecutor {
                     if (type.equalsIgnoreCase("pink")
                             || type.equalsIgnoreCase("magenta")
                             || type.equalsIgnoreCase("purple")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_PINK)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_PINK
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_PINK);
                     } else if (type.equalsIgnoreCase("aqua")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_AQUA)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_AQUA
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_AQUA);
                     } else if (type.equalsIgnoreCase("gold")
                             || type.equalsIgnoreCase("yellow")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_GOLD)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_GOLD
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_GOLD);
                     } else if (type.equalsIgnoreCase("green")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_GREEN)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_GREEN
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_GREEN);
                     } else if (type.equalsIgnoreCase("red")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_RED)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_RED
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_RED);
                     } else if (type.equalsIgnoreCase("darkred")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_DARKRED)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_DARKRED
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_DARKRED);
                     } else if (type.equalsIgnoreCase("gray")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_GRAY)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_GRAY
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_GRAY);
                     } else if (type.equalsIgnoreCase("blood")
                             || type.equalsIgnoreCase("crimson")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_CRIMSON)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_CRIMSON
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_CRIMSON);
                     } else if (type.equalsIgnoreCase("cyan")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_CYAN)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_CYAN
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_CYAN);
                     } else if (type.equalsIgnoreCase("blue")) {
+                        if (!PermissionHandler.has(sender,
+                                PermissionNode.EFFECT_POTION_BLUE)) {
+                            sender.sendMessage(ChatColor.RED
+                                    + VaporTrails.TAG
+                                    + " Lack permission: "
+                                    + PermissionNode.EFFECT_POTION_BLUE
+                                            .getNode());
+                            return true;
+                        }
                         trail = new Trail(plugin, sender.getName(),
                                 Type.POTION_BLUE);
                     }
                 }
-                if (trail != null) {
+                if (trail != null && sender instanceof Player) {
                     VTLogic.cancelExisting(sender.getName());
                     VTLogic.playerEffects.put(sender.getName(), trail);
                     sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
-                            + "Effect: " + ChatColor.GRAY + trail.getTitle());
+                            + " Effect: " + ChatColor.GRAY + trail.getTitle());
                 }
             } else {
-                if (!PermissionHandler.has(sender,
-                        PermissionNode.EFFECT_BLOCK.getNode())) {
+                if (!PermissionHandler.has(sender, PermissionNode.EFFECT_BLOCK)) {
                     sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Lack permission: "
+                            + " Lack permission: "
                             + PermissionNode.EFFECT_BLOCK.getNode());
                     return true;
                 }
@@ -254,7 +408,7 @@ public class Commander implements CommandExecutor {
                         if (VTLogic.playerEffects.containsKey(sender.getName())) {
                             VTLogic.cancelExisting(sender.getName());
                             sender.sendMessage(ChatColor.YELLOW
-                                    + VaporTrails.TAG + "Stopping effects.");
+                                    + VaporTrails.TAG + " Stopping effects.");
                         }
                         return true;
                     }
@@ -264,25 +418,29 @@ public class Commander implements CommandExecutor {
                         if (hasData) {
                             final Trail trail = new Trail(plugin,
                                     sender.getName(), Type.BLOCK, id, data);
-                            trail.setTitle("Block: "
+                            trail.setTitle(" Block: "
                                     + block.getType().toString() + " : " + data);
                             VTLogic.playerEffects.put(sender.getName(), trail);
-                            //TODO tell player
+                            sender.sendMessage(ChatColor.GREEN
+                                    + VaporTrails.TAG + " Effect: "
+                                    + ChatColor.GRAY + trail.getTitle());
                         } else {
                             final Trail trail = new Trail(plugin,
                                     sender.getName(), Type.BLOCK, id, 0);
-                            trail.setTitle("Block: "
+                            trail.setTitle(" Block: "
                                     + block.getType().toString());
                             VTLogic.playerEffects.put(sender.getName(), trail);
-                            //TODO tell player
+                            sender.sendMessage(ChatColor.GREEN
+                                    + VaporTrails.TAG + " Effect: "
+                                    + ChatColor.GRAY + trail.getTitle());
                         }
                     } else {
                         sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                                + "Must use a placeable block.");
+                                + " Must use a placeable block.");
                     }
                 } catch (NumberFormatException e) {
                     sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Invalid item id / data value given");
+                            + " Invalid item id / data value given");
                 }
             }
         }

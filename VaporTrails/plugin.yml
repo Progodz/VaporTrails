@@ -31,6 +31,7 @@ permissions:
             VaporTrails.effect.fire: true
             VaporTrails.effect.shine: true
             VaporTrails.effect.block: true
+            VaporTrails.effect.swirl: true
             VaporTrails.effect.potion.*: true
         default: op
     VaporTrails.admin:
