@@ -1,6 +1,7 @@
 package com.mitsugaru.VaporTrails.permissions;
 
 public enum PermissionNode {
+    TIME(".time")
     ADMIN(".admin"),
     EFFECT_SMOKE(".effect.smoke"),
     EFFECT_ENDER(".effect.ender"),
