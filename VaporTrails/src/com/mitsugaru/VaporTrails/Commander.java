@@ -101,11 +101,13 @@ public class Commander implements CommandExecutor {
                             + " Stopping effects.");
                 }
             } else if (com.equals("interval") || com.equals("time")) {
+                if (PermissionHandler.has(sender, PermissionNode.ADMIN)) {
                 final Trail trail = VTLogic.playerEffects.get(sender.getName());
                 if (trail == null) {
                     sender.sendMessage(ChatColor.YELLOW + VaporTrails.TAG
                             + " No effect is enabled.");
                     return true;
+                   }
                 }
                 try {
                     final int interval = Integer.parseInt(args[1]);
