@@ -52,15 +52,11 @@ public class Commander implements CommandExecutor {
             } else if (com.equals("help") || com.equals("?")) {
                 sender.sendMessage(ChatColor.GRAY
                         + "Possible Effects: "
-                        + ChatColor.GRAY
-                        + "SMOKE"
-                        + ChatColor.BLUE
-                        + "/"
-                        + ChatColor.GRAY
+                         if (PermissionHandler.has(sender, PermissionNode.EFFECT_SMOKE)) {
+                        + "SMOKE ,"
+                         if (PermissionHandler.has(sender, PermissionNode.EFFECT_FIRE)) {
                         + "FIRE"
-                        + ChatColor.BLUE
-                        + "/"
-                        + ChatColor.GRAY
+                        if (PermissionHandler.has(sender, PermissionNode.EFFECT_ENDER)) {
                         + "ENDER"
                         + ChatColor.BLUE
                         + "/"
@@ -94,6 +90,8 @@ public class Commander implements CommandExecutor {
                 sender.sendMessage(ChatColor.WHITE + "/trail time <ticks>"
                         + ChatColor.GRAY
                         + " : Resets the interval for an active trail.");
+                    }
+                }
             } else if (com.equals("stop") || com.equals("off")) {
                 if (VTLogic.playerEffects.containsKey(sender.getName())) {
                     VTLogic.cancelExisting(sender.getName());
