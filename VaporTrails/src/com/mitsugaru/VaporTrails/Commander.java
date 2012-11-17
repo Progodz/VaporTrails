@@ -46,9 +46,7 @@ public class Commander implements CommandExecutor {
                     sender.sendMessage(ChatColor.GREEN + VaporTrails.TAG
                             + " Config reloaded");
                 } else {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + " Lack permission: "
-                            + PermissionNode.ADMIN.getNode());
+                    sender.sendMessage(ChatColor.DARK_RED"You do not have access to that command!"());
                 }
                 return true;
             } else if (com.equals("help") || com.equals("?")) {
@@ -120,19 +118,17 @@ public class Commander implements CommandExecutor {
                     trail.setInterval(interval);
                     return true;
                 } catch (ArrayIndexOutOfBoundsException aioob) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+                    sender.sendMessage(ChatColor.DARK_RED + VaporTrails.TAG
                             + " No interval given.");
                     return true;
                 } catch (NumberFormatException nf) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
+                    sender.sendMessage(ChatColor.DARK_RED + VaporTrails.TAG
                             + " Non-number given for interval.");
                     return true;
                 }
             } else if (com.equals("smoke")) {
                 if (!PermissionHandler.has(sender, PermissionNode.EFFECT_SMOKE)) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Lack permission: "
-                            + PermissionNode.EFFECT_SMOKE.getNode());
+                    sender.sendMessage(ChatColor.DARK_RED"You do not have access to that trail!"());
                     return true;
                 }
                 if (sender instanceof Player) {
@@ -144,9 +140,7 @@ public class Commander implements CommandExecutor {
                 }
             } else if (com.equals("ender")) {
                 if (!PermissionHandler.has(sender, PermissionNode.EFFECT_ENDER)) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + "Lack permission: "
-                            + PermissionNode.EFFECT_ENDER.getNode());
+                    sender.sendMessage(ChatColor.RED"You do not have access to that trail!"());
                     return true;
                 }
                 if (sender instanceof Player) {
@@ -159,9 +153,7 @@ public class Commander implements CommandExecutor {
             } else if (com.equals("lightning") || com.equals("thunder")) {
                 if (!PermissionHandler.has(sender,
                         PermissionNode.EFFECT_THUNDER)) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + " Lack permission: "
-                            + PermissionNode.EFFECT_THUNDER.getNode());
+                    sender.sendMessage(ChatColor.DARK_RED"You do not have access to that trail!"());
                     return true;
                 }
                 if (sender instanceof Player) {
@@ -174,9 +166,7 @@ public class Commander implements CommandExecutor {
             } else if (com.equals("explosion") || com.equals("explode")
                     || com.equals("tnt")) {
                 if (!PermissionHandler.has(sender, PermissionNode.EFFECT_TNT)) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + " Lack permission: "
-                            + PermissionNode.EFFECT_TNT.getNode());
+                    sender.sendMessage(ChatColor.RED"You do not have access to that trail!"());
                     return true;
                 }
                 if (sender instanceof Player) {
@@ -188,9 +178,7 @@ public class Commander implements CommandExecutor {
                 }
             } else if (com.equals("snow")) {
                 if (!PermissionHandler.has(sender, PermissionNode.EFFECT_SNOW)) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + " Lack permission: "
-                            + PermissionNode.EFFECT_SNOW.getNode());
+                    sender.sendMessage(ChatColor.DARK_RED"You do not have access to that trail!"());
                     return true;
                 }
                 if (sender instanceof Player) {
@@ -202,9 +190,7 @@ public class Commander implements CommandExecutor {
                 }
             } else if (com.equals("fire") || com.equals("flame")) {
                 if (!PermissionHandler.has(sender, PermissionNode.EFFECT_FIRE)) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + " Lack permission: "
-                            + PermissionNode.EFFECT_FIRE.getNode());
+                    sender.sendMessage(ChatColor.DARK_RED"You do not have access to that trail!"());
                     return true;
                 }
                 if (sender instanceof Player) {
@@ -216,9 +202,7 @@ public class Commander implements CommandExecutor {
                 }
             } else if (com.equals("shine") || com.equals("blaze")) {
                 if (!PermissionHandler.has(sender, PermissionNode.EFFECT_SHINE)) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + " Lack permission: "
-                            + PermissionNode.EFFECT_SHINE.getNode());
+                    sender.sendMessage(ChatColor.DARK_RED"You do not have access to that trail!"());
                     return true;
                 }
                 if (sender instanceof Player) {
@@ -230,9 +214,7 @@ public class Commander implements CommandExecutor {
                 }
             } else if (com.equalsIgnoreCase("swirl")) {
                 if (!PermissionHandler.has(sender, PermissionNode.EFFECT_SWIRL)) {
-                    sender.sendMessage(ChatColor.RED + VaporTrails.TAG
-                            + " Lack permission: "
-                            + PermissionNode.EFFECT_SWIRL.getNode());
+                    sender.sendMessage(ChatColor.DARK_RED"You do not have access to that trail!"());
                     return true;
                 }
                 if (sender instanceof Player) {
@@ -254,11 +236,8 @@ public class Commander implements CommandExecutor {
                             || type.equalsIgnoreCase("purple")) {
                         if (!PermissionHandler.has(sender,
                                 PermissionNode.EFFECT_POTION_PINK)) {
-                            sender.sendMessage(ChatColor.RED
-                                    + VaporTrails.TAG
-                                    + " Lack permission: "
-                                    + PermissionNode.EFFECT_POTION_PINK
-                                            .getNode());
+                            sender.sendMessage(ChatColor.DARK_RED
+                                    "You do not have access to that trail!"());
                             return true;
                         }
                         trail = new Trail(plugin, sender.getName(),
@@ -266,11 +245,8 @@ public class Commander implements CommandExecutor {
                     } else if (type.equalsIgnoreCase("aqua")) {
                         if (!PermissionHandler.has(sender,
                                 PermissionNode.EFFECT_POTION_AQUA)) {
-                            sender.sendMessage(ChatColor.RED
-                                    + VaporTrails.TAG
-                                    + " Lack permission: "
-                                    + PermissionNode.EFFECT_POTION_AQUA
-                                            .getNode());
+                            sender.sendMessage(ChatColor.DARK_RED
+                                    "You do not have access to that trail!"());
                             return true;
                         }
                         trail = new Trail(plugin, sender.getName(),
@@ -279,11 +255,8 @@ public class Commander implements CommandExecutor {
                             || type.equalsIgnoreCase("yellow")) {
                         if (!PermissionHandler.has(sender,
                                 PermissionNode.EFFECT_POTION_GOLD)) {
-                            sender.sendMessage(ChatColor.RED
-                                    + VaporTrails.TAG
-                                    + " Lack permission: "
-                                    + PermissionNode.EFFECT_POTION_GOLD
-                                            .getNode());
+                            sender.sendMessage(ChatColor.DARK_RED
+                                    "You do not have access to that trail!"());
                             return true;
                         }
                         trail = new Trail(plugin, sender.getName(),
@@ -292,10 +265,7 @@ public class Commander implements CommandExecutor {
                         if (!PermissionHandler.has(sender,
                                 PermissionNode.EFFECT_POTION_GREEN)) {
                             sender.sendMessage(ChatColor.RED
-                                    + VaporTrails.TAG
-                                    + " Lack permission: "
-                                    + PermissionNode.EFFECT_POTION_GREEN
-                                            .getNode());
+                                    "You do not have access to that trail!"());
                             return true;
                         }
                         trail = new Trail(plugin, sender.getName(),
@@ -304,10 +274,7 @@ public class Commander implements CommandExecutor {
                         if (!PermissionHandler.has(sender,
                                 PermissionNode.EFFECT_POTION_RED)) {
                             sender.sendMessage(ChatColor.RED
-                                    + VaporTrails.TAG
-                                    + " Lack permission: "
-                                    + PermissionNode.EFFECT_POTION_RED
-                                            .getNode());
+                                   "You do not have access to that trail!"());
                             return true;
                         }
                         trail = new Trail(plugin, sender.getName(),
